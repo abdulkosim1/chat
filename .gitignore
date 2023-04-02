@@ -34,7 +34,7 @@ eggs/
 lib/
 lib64/
 parts/
-static/
+# static/
 sdist/
 var/
 wheels/

@@ -15,7 +15,7 @@
 	<!--Coded With Love By Mutiullah Samim-->
 	<body>
     {% if user.is_authenticated %}
-        <h1 style="text-align: end; padding-right: 10px">Logged in as : {{ user.username }}</h1>
+        <h1 style="text-align: end; padding-right: 10px">Logged in as : {{ user.email }}</h1>
         <input type="hidden" id="logged-in-user" value="{{ user.id }}">
     {% endif %}
 		<div class="container-fluid h-100">
@@ -41,9 +41,9 @@
                                         </div>
                                         <div class="user_info">
                                             {% if thread.first_person == user %}
-                                                <span>{{ thread.second_person.username }}</span>
+                                                <span>{{ thread.second_person.email }}</span>
                                             {% else %}
-                                                <span>{{ thread.first_person.username }}</span>
+                                                <span>{{ thread.first_person.email }}</span>
                                             {% endif %}
 
 {#                                            <p>Kalid is online</p>#}
@@ -73,9 +73,9 @@
                                         </div>
                                         <div class="user_info">
                                             {% if thread.first_person == user %}
-                                                    <span>Chat with {{ thread.second_person.username }}</span>
+                                                    <span>Chat with {{ thread.second_person.email }}</span>
                                             {% else %}
-                                                <span>Chat with {{ thread.first_person.username }}</span>
+                                                <span>Chat with {{ thread.first_person.email }}</span>
                                             {% endif %}
 
                                             <p>{{ thread.chatmessage_thread.all.count }} messages</p>

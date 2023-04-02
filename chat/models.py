@@ -1,10 +1,10 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.db.models import Q
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 User = get_user_model()
-
-# Create your models here.
 
 class ThreadManager(models.Manager):
     def by_user(self, **kwargs):
@@ -20,8 +20,9 @@ class Thread(models.Model):
                                      related_name='thread_second_person')
     updated = models.DateTimeField(auto_now=True)
     timestamp = models.DateTimeField(auto_now_add=True)
-
+    
     objects = ThreadManager()
+
     class Meta:
         unique_together = ['first_person', 'second_person']
 

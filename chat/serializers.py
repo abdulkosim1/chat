@@ -5,6 +5,8 @@ from chat.models import Thread, ChatMessage
 User = get_user_model()
 
 class ThreadSerializer(serializers.ModelSerializer):
+    first_person = serializers.CharField(required=False)
+
     class Meta:
         model = Thread
         fields = '__all__'
