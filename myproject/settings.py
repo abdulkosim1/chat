@@ -41,9 +41,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'chat',
     'channels',
-    'account',
     'rest_framework',
     'captcha',
+    'djoser',
+    'account',
+
 
 ]
 
@@ -162,5 +164,21 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
 }
+SIMPLE_JWT = {
+    'AUTH_HEADER_TYPES': ('Bearer',),
+
+}
+
+
+DJOSER = {
+    'USER_CREATE_PASSWORD_RETYPE': True,
+    'SET_PASSWORD_RETYPE': True,
+    'PASSWORD_RESET_CONFIRM_RETYPE': True,
+    'TOKEN_MODEL': None,
+    'ACTIVATION_URL': 'auth/verify/{uid}/{token}',
+    'SEND_ACTIVATION_EMAIL': True,
+}
+
+
 
 AUTH_USER_MODEL = 'account.CustomUser'

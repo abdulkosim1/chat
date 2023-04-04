@@ -3,7 +3,9 @@ from account.serializers import RegisterSerializer, ForgotPasswordSerializer,For
 from rest_framework.response import Response
 from django.contrib.auth import get_user_model
 from django.shortcuts import render, redirect
-from .forms import SignUpForm
+from .forms import SignUpForm, Loginform
+from django.contrib.auth import authenticate, login
+
 
 User = get_user_model()
 
@@ -15,13 +17,39 @@ class RegisterAPIView(APIView):
             form.save()
             return redirect('')
         return render(request, 'singup.html', {'form': form})
-
     
     def post(self, request):
         serializer = RegisterSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response('Вы успешно зарегистрировались. Вам отправлено письмо с активацией', status=201)
+
+def pagelogin(request):
+
+    uservalue=''
+    passwordvalue=''
+
+    form= Loginform(request.POST or None)
+    if form.is_valid():
+        uservalue= form.cleaned_data.get("email")
+        passwordvalue= form.cleaned_data.get("password")
+
+        user= authenticate(email=uservalue, password=passwordvalue)
+        if user is not None:
+            login(request, user)
+            context= {'form': form,
+                      'error': 'The login has been successful'}
+            
+            return render(request, 'messages.html', context)
+        else:
+            context= {'form': form,
+                      'error': 'The username and password combination is incorrect'}
+            
+            return render(request, 'login.html', context )
+
+    else:
+        context= {'form': form}
+        return render(request, 'login.html', context)
 
 
 class ActivationView(APIView):

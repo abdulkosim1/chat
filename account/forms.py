@@ -12,3 +12,7 @@ class SignUpForm(UserCreationForm):
         model = User
         fields = ('email', 'password')
 
+class Loginform(forms.Form):
+    email = forms.CharField(max_length= 25,label="Enter email")
+    password = forms.CharField(max_length= 30, label='Password', widget=forms.PasswordInput)
+

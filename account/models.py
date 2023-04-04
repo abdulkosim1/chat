@@ -4,7 +4,7 @@ from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.hashers import make_password
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from django.contrib.auth import get_user_model
+# from django.contrib.auth import get_user_model
 
 
 # User = get_user_model()
@@ -60,11 +60,13 @@ class CustomUser(AbstractUser):
         code = str(uuid.uuid4())
         self.activation_code = code
 
+
 @receiver(post_save, sender=CustomUser)
 def create_user_thread(sender, instance, created, **kwargs):
     if created:
+        last_user = CustomUser.objects.last()
         from chat.models import Thread
-        # Создаем новый объект Thread, связывая его с новым объектом User
-        Thread.objects.create(first_person=instance)
+        for user in CustomUser.objects.exclude(id=last_user.id):
+            Thread.objects.create(first_person=user, second_person=last_user)
 
 
